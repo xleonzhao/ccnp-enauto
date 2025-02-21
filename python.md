@@ -321,6 +321,7 @@ Here are some advanced features you should focus on:
 
 ## **4. Resources for Advanced Learning**
 
+* https://www.geeksforgeeks.org/python-interview-questions
 
 ---
 
