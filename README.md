@@ -5,6 +5,7 @@
   - [4.0 Cisco DNA Center](#40-cisco-dna-center)
   - [5.0 Cisco SD-WAN](#50-cisco-sd-wan)
   - [6.0 Cisco Meraki](#60-cisco-meraki)
+- [Resources](#resources)
 
 # Topics
 
@@ -81,3 +82,14 @@ https://learningnetwork.cisco.com/s/enauto-exam-topics
 * 6.2 Create a network using Cisco Meraki APIs
 * 6.3 Configure a network using Cisco Meraki APIs
 * 6.4 Implement a Python script for Cisco Meraki Alert WebHooks
+
+# Resources
+
+* https://github.com/RivandCH/300-435enAuto
+* https://github.com/CamelJake/enauto
+* Udemy
+  * [Cisco CCNP ENAUTO 300-435 1/2](https://www.udemy.com/course/cisco-ccnp-enauto-300-435-12/?couponCode=LEARNNOWPLANS)
+  * [Cisco CCNP ENAUTO 300-435 2/2](https://www.udemy.com/course/cisco-ccnp-enauto-300-435-22/?couponCode=LEARNNOWPLANS)
+  * [Practice exams](https://www.udemy.com/course/300-425-enwlsd-300-430-enwlsi-300-435-enauto-practice-test/?couponCode=LEARNNOWPLANS)
+* Youtube
+  * https://www.youtube.com/watch?v=Jxak8fLfly0&ab_channel=CCIEwithRatnesh
