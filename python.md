@@ -1,20 +1,12 @@
 - [Basics](#basics)
-- [Advanced](#advanced)
-  - [Object-Oriented Programming (OOP)](#object-oriented-programming-oop)
-  - [Advanced Data Structures](#advanced-data-structures)
-  - [Functional Programming](#functional-programming)
-  - [Modules and Libraries](#modules-and-libraries)
-  - [Advanced Topics](#advanced-topics)
-    - [decorator](#decorator)
-  - [Practice with Real-World Projects](#practice-with-real-world-projects)
-- [Resources for Learning](#resources-for-learning)
-- [Deekseek-R1](#deekseek-r1)
-  - [**1. Build a Strong Foundational Knowledge**](#1-build-a-strong-foundational-knowledge)
-  - [**2. Advanced Topics in Python**](#2-advanced-topics-in-python)
-    - [**a. Object-Oriented Programming (OOP)**](#a-object-oriented-programming-oop)
-    - [**b. Advanced Data Structures**](#b-advanced-data-structures)
-    - [**c. Functional Programming**](#c-functional-programming)
-    - [**d. Modules and Packages**](#d-modules-and-packages)
+- [Object-Oriented Programming (OOP)](#object-oriented-programming-oop)
+- [Advanced Data Structures](#advanced-data-structures)
+- [Functional Programming](#functional-programming)
+  - [Lambda Functions](#lambda-functions)
+  - [Map and Filter](#map-and-filter)
+  - [Comprehensions](#comprehensions)
+- [Modules and Packages](#modules-and-packages)
+  - [Creating your own packages:](#creating-your-own-packages)
     - [**e. Error Handling**](#e-error-handling)
     - [**f. Multithreading and Multiprocessing**](#f-multithreading-and-multiprocessing)
     - [**g. Decorators**](#g-decorators)
@@ -23,6 +15,11 @@
   - [**3. Advanced Topics and Best Practices**](#3-advanced-topics-and-best-practices)
   - [**4. Resources for Advanced Learning**](#4-resources-for-advanced-learning)
   - [**5. Build Projects to Apply What You Learn**](#5-build-projects-to-apply-what-you-learn)
+- [Advanced Topics](#advanced-topics)
+  - [Advanced Topics](#advanced-topics-1)
+    - [decorator](#decorator)
+  - [Practice with Real-World Projects](#practice-with-real-world-projects)
+- [Resources for Learning](#resources-for-learning)
 
 * suggested by chatGPT
 
@@ -97,39 +94,39 @@ Python has built-in modules and libraries that extend its functionality for data
 * collections: Specialized container datatypes like deque, Counter, etc.
 
 - **Generators:** Use `yield` to create iterators.
-  ```python
-  def fibonacci():
-      print("init a and b")
-      a, b = 0, 1
+```python
+def fibonacci():
+    print("init a and b")
+    a, b = 0, 1
 
-      while True:
-          print("before yield")
-          yield a
-          print("after yield, updating a and b")
-          a, b = b, a + b
-          print("a and b updated. loop again")
+    while True:
+        print("before yield")
+        yield a
+        print("after yield, updating a and b")
+        a, b = b, a + b
+        print("a and b updated. loop again")
 
-  fib = fibonacci()
-  print(type(fib))
-  for _ in range(4):
-      print("calling fib")
-      print(next(fib))
-      print("done this iteration\n")
+fib = fibonacci()
+print(type(fib))
+for _ in range(4):
+    print("calling fib")
+    print(next(fib))
+    print("done this iteration\n")
 
-  calling fib
-  init a and b
-  before yield
-  0
-  done this iteration
+calling fib
+init a and b
+before yield
+0
+done this iteration
 
-  calling fib
-  after yield, updating a and b
-  a and b updated. loop again
-  before yield
-  1
-  done this iteration
-  ```
-
+calling fib
+after yield, updating a and b
+a and b updated. loop again
+before yield
+1
+done this iteration
+```
+  
 # Functional Programming
 
 Functional programming is a paradigm that emphasizes the use of functions to create programs:
@@ -138,32 +135,43 @@ Functional programming is a paradigm that emphasizes the use of functions to cre
 * Map and Filter: Using map() and filter() for functional programming.
 * List Comprehensions: Concise way to create lists based on existing iterables.
 
-- **Lambda Functions:** Short anonymous functions.
-  ```python
-  add = lambda a, b: a + b
-  print(add(3, 4))  # Output: 7
-  ```
+## Lambda Functions
 
-- **Map and Filter:** Apply functions to iterables.
-  ```python
-  import random
-  numbers = [random.randint(1,100) for _ in range(20)]
+```python
+add = lambda a, b: a + b
+print(add(3, 4))  # Output: 7
+```
 
-  # map() applies a function to each item of an iterable and retuan an iterable
-  squared = list(map(lambda x: x**2, numbers))
-  
-  # filter() also applies a function to each item of an iterable and only return that item if
-  # func() return true
-  evens = list(filter(lambda x: x % 2 == 0, numbers))
-  ```
-- **Comprehensions:** Lists, dictionaries, and generators.
-  ```python
-  # List comprehension
-  squares = [x**2 for x in range(6)]
+## Map and Filter
 
-  # Dictionary comprehension
-  d = {i: i**2 for i in range(5)}
-  ```
+```python
+import random
+numbers = [random.randint(1,100) for _ in range(20)]
+
+# map() applies a function to each item of an iterable and retuan an iterable
+squared = list(map(lambda x: x**2, numbers))
+
+# filter() also applies a function to each item of an iterable and only return that item if
+# func() return true
+evens = list(filter(lambda x: x % 2 == 0, numbers))
+
+# with multiple iterables
+list1 = [1, 2, 3]
+list2 = [4, 5, 6]
+
+added = map(lambda x, y: x + y, list1, list2)
+print(list(added))
+```
+
+## Comprehensions
+
+```python
+# List comprehension
+squares = [x**2 for x in range(6)]
+
+# Dictionary comprehension
+d = {i: i**2 for i in range(5)}
+```
 
 # Modules and Packages
 
@@ -174,15 +182,42 @@ Python has a vast ecosystem of libraries that you should explore:
 * matplotlib and seaborn: For data visualization.
 * requests: For HTTP requests and APIs.
 
-- Importing modules:
-  ```python
-  import math
-  from math import sqrt
-  ```
+## Creating your own packages:
 
-- Creating your own packages:
-  - Use `__init__.py` to make directories into packages.
-  - Organize code into logical modules.
+- Use `__init__.py` to make directories into packages.
+- Organize code into logical modules.
+
+```python
+├── main.py
+└── mypackage
+    ├── funcs.py
+    ├── __init__.py
+    ├── math.py
+
+# main.py
+import mypackage as pkg
+
+a=3
+b=5
+print(f"{pkg.greet('hello')}")
+print(f"{a} + {b} = {pkg.add(a,b)}")
+print(f"{a} * {b} = {pkg.times(a,b)}")
+
+# __init__.py
+from .math import add, times
+from .funcs import greet
+
+# funcs.py 
+def greet(words="you"):
+    print(f"Greeting, {words}")
+    
+#math.py 
+def add(x, y):
+    return x+y
+
+def times(x, y):
+    return x*y%   
+```
 
 **Practice:**
 
