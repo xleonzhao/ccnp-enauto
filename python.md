@@ -261,7 +261,7 @@ print(squared_parallel[:10])
 
 * extend the behavior of a function, without change the actual code of func
 * essentially a function that takes another function as an argument and returns a new function with enhanced functionality.
-* [example](files/conn.py)
+* [example](examples/conn.py)
 
 ```python
 def my_decorator(func):
