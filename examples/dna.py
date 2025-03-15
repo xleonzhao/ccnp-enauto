@@ -13,6 +13,12 @@ dnac = "sandboxdnac2.cisco.com"
 username="devnetuser"
 password="Cisco123!"
 token = None
+dna_api = {
+    "get_site": f"https://{dnac}/dna/intent/api/v1/site",
+    "get_site_health": f"https://{dnac}/dna/intent/api/v1/site-health",
+    "get_devices": f"https://{dnac}/dna/intent/api/v1/network-device",
+    "get_device": f"https://{dnac}/dna/intent/api/v1/network-device/_ARG0_",
+}
 
 ######################
 # Functions
@@ -20,7 +26,6 @@ token = None
 @retry(stop_max_attempt_number=3, wait_fixed=2000)
 @timeout(10)
 def get_token(username, password):
-
     url = f"https://{dnac}/dna/system/api/v1/auth/token"
     headers = {
         "Accept": "application/json",
@@ -38,7 +43,7 @@ def get_token(username, password):
 
 @retry(stop_max_attempt_number=3, wait_fixed=2000)
 @timeout(10)
-def get_dna_data(token, url):
+def call_dna_api(token, url):
     headers = {
         "Accept": "application/json",
         "Content-Type": "application/json",
@@ -56,25 +61,7 @@ def get_dna_data(token, url):
 
     return data
 
-dna_api = {
-    "get_site": f"https://{dnac}/dna/intent/api/v1/site",
-    "get_site_health": f"https://{dnac}/dna/intent/api/v1/site-health",
-    "get_device": f"https://{dnac}/dna/intent/api/v1/network-device"
-}
-
-# def get_site(token):
-#     url = f"https://{dnac}/dna/intent/api/v1/site"
-#     return get_dna_data(token, url)
-
-# def get_site_health(token):
-#     url = f"https://{dnac}/dna/intent/api/v1/site-health"
-#     return get_dna_data(token, url)
-
-# def get_device(token):
-#     url = f"https://{dnac}/dna/intent/api/v1/network-device"
-#     return get_dna_data(token, url)
-
-def call_api(token, api):
+def call_dna(token, api, *args):
     if not token:
         return
 
@@ -85,7 +72,10 @@ def call_api(token, api):
     resp = None
     try:
         url = dna_api[api]
-        resp = get_dna_data(token, url)
+        if args:
+            for i in range(len(args)):
+                url = url.replace(f"_ARG{i}_", args[i])
+        resp = call_dna_api(token, url)
         pprint(resp) if debug else None
     except Exception as e:
         print(f"System health retrieval failed: {e}")
@@ -95,7 +85,7 @@ def call_api(token, api):
 ######################
 # Main Function
 ######################
-debug = True
+debug = False
 if __name__ == "__main__":
     try:
         token = get_token(username, password)
@@ -103,6 +93,11 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"Token retrieval failed: {e}")
 
-    # call_api(token, get_site)
-    # call_api(token, get_site_health)
-    call_api(token, get_device)
+    # call_dna(token, "get_site")
+    # call_dna(token, "get_site_health")
+    data = call_dna(token, "get_devices")
+    for i in range(len(data)):
+        dev_id = data[i]['id']
+        print(f"device ID = {dev_id}")
+        dev_data = call_dna(token, "get_device", dev_id)
+        pprint(dev_data)
