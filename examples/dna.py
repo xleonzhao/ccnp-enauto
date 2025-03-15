@@ -56,25 +56,36 @@ def get_dna_data(token, url):
 
     return data
 
-def get_site(token):
-    url = f"https://{dnac}/dna/intent/api/v1/site"
-    return get_dna_data(token, url)
+dna_api = {
+    "get_site": f"https://{dnac}/dna/intent/api/v1/site",
+    "get_site_health": f"https://{dnac}/dna/intent/api/v1/site-health",
+    "get_device": f"https://{dnac}/dna/intent/api/v1/network-device"
+}
 
-def get_site_health(token):
-    url = f"https://{dnac}/dna/intent/api/v1/site-health"
-    return get_dna_data(token, url)
+# def get_site(token):
+#     url = f"https://{dnac}/dna/intent/api/v1/site"
+#     return get_dna_data(token, url)
 
-def get_device(token):
-    url = f"https://{dnac}/dna/intent/api/v1/network-device"
-    return get_dna_data(token, url)
+# def get_site_health(token):
+#     url = f"https://{dnac}/dna/intent/api/v1/site-health"
+#     return get_dna_data(token, url)
 
-def call_api(token, func):
+# def get_device(token):
+#     url = f"https://{dnac}/dna/intent/api/v1/network-device"
+#     return get_dna_data(token, url)
+
+def call_api(token, api):
     if not token:
         return
 
+    if api not in dna_api.keys():
+        print(f"Invalid API: {api}")
+        return
+    
     resp = None
     try:
-        resp = func(token)
+        url = dna_api[api]
+        resp = get_dna_data(token, url)
         pprint(resp) if debug else None
     except Exception as e:
         print(f"System health retrieval failed: {e}")
