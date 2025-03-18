@@ -95,9 +95,12 @@ if __name__ == "__main__":
 
     # call_dna(token, "get_site")
     # call_dna(token, "get_site_health")
+        
     data = call_dna(token, "get_devices")
     for i in range(len(data)):
         dev_id = data[i]['id']
         print(f"device ID = {dev_id}")
         dev_data = call_dna(token, "get_device", dev_id)
         pprint(dev_data)
+
+    

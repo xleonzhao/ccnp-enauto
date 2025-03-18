@@ -27,8 +27,14 @@
 * Control Flow: if, else, elif, loops (for and while)
 * Functions: Defining functions, parameters, return values
 * Lists: Creating, slicing, list comprehensions
+  * `list.remove(x)`: remove element whose value=x
+  * `del list(x)`: remove $x^{th}$ element
+  * `list.pop()`: remove last element
+  * `list.clear()`: delete all elements
 * Tuples: Immutable sequences
 * Dictionaries: Key-value pairs
+  * `del dict["x"]`: remove item whose key=x
+  * `v = pop(dict["x"])`: remove item whose key=x and return the item's value
 * Sets: Unordered collections of unique elements
 * Strings: Operations, formatting (f-strings, format(), etc.)
 * File Handling: Reading and writing files using open() and with statements
