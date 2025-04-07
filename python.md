@@ -55,8 +55,10 @@
 * Polymorphism: Using a single interface to represent different underlying forms.
 * Encapsulation: Access modifiers (public, private, protected).
 * Abstraction: Using abstract base classes with abc.ABCMeta.
+* class variables shared by all instances
 
 **Practice:**
+
 - Create a simple class hierarchy (e.g., Animal → Dog, Cat).
 - Implement polymorphic functions.
 

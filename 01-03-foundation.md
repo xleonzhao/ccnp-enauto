@@ -11,11 +11,16 @@
     - [Resources](#resources)
 - [3.0 Network Device Programmability](#30-network-device-programmability)
   - [3.1 Netmiko](#31-netmiko)
+    - [commonly used calls](#commonly-used-calls)
   - [3.2 ncclient + NETCONF](#32-ncclient--netconf)
   - [3.4 Ansible](#34-ansible)
     - [inventory](#inventory)
     - [task](#task)
-  - [3.5-3.7 MDT](#35-37-mdt)
+  - [3.5-3.7 Model Driven Telemetry (MDT)](#35-37-model-driven-telemetry-mdt)
+    - [CLI](#cli)
+    - [RESTCONF](#restconf)
+    - [NETCONF](#netconf)
+    - [more readings](#more-readings)
 
 * from orhanergun @ udemy
   * https://github.com/OrhanErgun-net/OE_ENAUTO_300435
@@ -224,6 +229,24 @@ net_connect.disconnect()
 *Mar 12 14:45:53.408: %SYS-5-CONFIG_I: Configured from console by noc on vty0 (10.10.0.1)
 ```
 
+### commonly used calls
+
+* Netmiko simplifies network device interaction via SSH. It offers several functions for sending commands and retrieving output:
+
+| Command                          | Description |
+|----------------------------------|-------------|
+| `send_command()`                 | Sends a single command and returns the output, often used to retrieve information from the device rather than configure it. It automatically handles command echoing and prompt stripping. |
+| `send_command_timing()`          | Sends a command and waits for output based on a timer. It is useful when dealing with commands that take a longer time to execute. |
+| `send_config_set()`              | Executes multiple configuration commands. It automatically enters configuration mode and applies the commands. |
+| `send_config_from_file()`        | Reads configuration commands from a file and executes them using `send_config_set()`. |
+| `read_channel()` and `write_channel()` | Useful for connecting through jump hosts, providing low-level control over data transmission. |
+| `enable()`                       | Enters enable mode. |
+| `check_enable_mode()`            | Checks if the device is in enable mode. |
+| `exit_enable_mode()`             | Exits enable mode. |
+| `find_prompt()`                  | Finds the current prompt. |
+| `disconnect()`                   | Disconnects from the device. |
+
+
 ## 3.2 ncclient + NETCONF
 
 * 3.2 Construct a Python script using ncclient that uses NETCONF to manage and monitor an IOS XE device
@@ -338,12 +361,20 @@ total 20
 ansible-playbook --vault-id .key blades.yml -i inventories/lab/blades
 ```
 
-## 3.5-3.7 MDT
+## 3.5-3.7 Model Driven Telemetry (MDT)
 
 * 3.5 Configure a subscription for model driven telemetry on an IOS XE device (CLI, NETCONF, and RESTCONF)
+* 3.6 Compare publication and subscription telemetry models
+  * 3.6.a Periodic / cadence
+  * 3.6.b On-change
+* 3.7 Describe the benefits and usage of telemetry data in troubleshooting the network
+
+### CLI
 
 ![](img/2025-03-14-11-06-12.png)
 ![](img/2025-03-14-11-08-37.png)
+
+### RESTCONF
 
 ```python
 import urllib3, requests, json
@@ -388,8 +419,8 @@ RES_Config = requests.put(URL_Config,auth = (UserName, PassWord),
 print(RES_Config)
 ```
 
-* 3.6 Compare publication and subscription telemetry models
-  * 3.6.a Periodic / cadence
+### NETCONF
+
 ```python
 import xmltodict
 from lxml.etree import fromstring
@@ -409,15 +440,32 @@ RPC = f'''
 
 RPC_Res = m.dispatch(fromstring(RPC))
 
+"""
+Example of receiving Push-Updates
+
+<notification xmlns="urn:ietf:params:xml:ns:netconf:notification:1.0">
+    <eventTime>2017-05-09T21:34:51.74Z</eventTime>
+    <push-update xmlns="urn:ietf:params:xml:ns:yang:ietf-yang-push">
+        <subscription-id>2147483650</subscription-id>
+        <datastore-contents-xml>
+            <cpu-usage xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-process-cpu-oper"><cpu-utilization>
+            <five-seconds>19</five-seconds></cpu-utilization></cpu-usage>
+        </datastore-contents-xml>
+    </push-update>
+</notification>
+"""
+
 while True:
 
     T_Notification = xmltodict.parse(m.take_notification().notification_xml)
 
     print(f" {T_Notification['notification']['push-update']['datastore-contents-xml']['cpu-usage']['cpu-utilization']['five-seconds']}% CPU")
-    
 ```
-  * 3.6.b On-change
-* 3.7 Describe the benefits and usage of telemetry data in troubleshooting the network
+
+### more readings
+
+* [Cisco Doc on MDT programming](https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/prog/configuration/1610/b_1610_programmability_cg/model_driven_telemetry.html)
+* [code from MDT config to Telegraf/Grafana](https://github.com/jeremycohoe/cisco-ios-xe-programmability-lab-module-6-mdt)
 
 ---
 

@@ -7,6 +7,8 @@
   - [6.0 Cisco Meraki](#60-cisco-meraki)
 - [Resources](#resources)
 
+* 300-435: 
+
 # Topics
 
 https://learningnetwork.cisco.com/s/enauto-exam-topics
